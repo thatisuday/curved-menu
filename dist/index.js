@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a71c6c945de753dbae97"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "af9bfe4db262e8e406cd"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -722,7 +722,7 @@
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire(0)(__webpack_require__.s = 0);
+/******/ 	return hotCreateRequire(3)(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -732,7 +732,421 @@
 "use strict";
 
 
-var x = 5;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getCanvasSize = exports.getCos = exports.getWidth = undefined;
+
+var _angle = __webpack_require__(1);
+
+// get minimum width of div to fit points
+// r - (cos(angle/2) * r)
+function getWidth(radius, angle) {
+    var cos = (0, _angle.getCos)(angle / 2);
+    return Math.round(radius - cos * radius);
+}
+
+// get minimum height of div to fit points
+// r * sin(angle/2) * 2
+function getHeight(radius, angle) {
+    var sin = (0, _angle.getSin)(angle / 2);
+    return Math.round(radius * sin * 2);
+}
+
+// get canvas width and height
+// canvas: area in which navigation menu will be rendered
+function getCanvasSize(radius, angle) {
+    var width = getWidth(radius, angle);
+    var height = getHeight(radius, angle);
+
+    return {
+        width: width,
+        height: height
+    };
+}
+
+exports.getWidth = getWidth;
+exports.getCos = _angle.getCos;
+exports.getCanvasSize = getCanvasSize;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+// get sin of an angle
+function getSin(angle) {
+    if (angle < 90) {
+        return Math.sin(angle * (Math.PI / 180));
+    } else {
+        return 1;
+    }
+}
+
+// get cos of an angle
+function getCos(angle) {
+    if (angle < 90) {
+        return Math.cos(angle * (Math.PI / 180));
+    } else {
+        return 0;
+    }
+}
+
+exports.getSin = getSin;
+exports.getCos = getCos;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+// add styles to a dom element
+function stylize(domElem, styles) {
+    for (var prop in styles) {
+        domElem.style[prop] = styles[prop];
+    }
+
+    return domElem;
+}
+
+exports.stylize = stylize;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.CurvedMenu = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _canvas = __webpack_require__(4);
+
+var _points = __webpack_require__(5);
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var navElement = document.getElementById('nav');
+
+var radius = 300; // radius of circle in px
+var angle = 90; // span angle of points on circle
+var pointsCount = 4; // number of points
+var pointSize = 15; // size of points in px
+
+var CurvedMenu = exports.CurvedMenu = function () {
+    function CurvedMenu(rootElem, config) {
+        _classCallCheck(this, CurvedMenu);
+
+        this.rootElem = rootElem;
+        this.config = config;
+    }
+
+    // initialize curved menu
+
+
+    _createClass(CurvedMenu, [{
+        key: 'init',
+        value: function init() {
+            var _canvasElement;
+
+            this.canvasElement = (0, _canvas.getCanvas)(_extends({ rootElem: this.rootElem }, this.config));
+            var pointElements = (0, _points.getPointElements)(this.config);
+            this.canvasElement = (_canvasElement = this.canvasElement).append.apply(_canvasElement, _toConsumableArray(pointElements));
+
+            // notify init event
+            this.notify('INIT');
+        }
+
+        // notitfy
+
+    }, {
+        key: 'notify',
+        value: function notify(type) {
+            console.log('NOTIF: ', type);
+        }
+    }]);
+
+    return CurvedMenu;
+}();
+
+// instance
+
+
+var instance = new CurvedMenu(navElement, {
+    radius: radius, angle: angle, pointSize: pointSize, pointsCount: pointsCount
+});
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getPathElement = exports.stylizeCanvas = exports.getCanvas = undefined;
+
+var _geometry = __webpack_require__(0);
+
+var _domStylize = __webpack_require__(2);
+
+// Stylize (css) canvas area
+// API related to canvas
+// Canvas is area in which curved menu points (navigation elements) will be rendered
+
+function stylizeCanvas(_ref) {
+    var canvasElem = _ref.canvasElem,
+        radius = _ref.radius,
+        angle = _ref.angle,
+        pointSize = _ref.pointSize;
+
+    // get recommended size of canvas element
+    var _getCanvasSize = (0, _geometry.getCanvasSize)(radius, angle),
+        width = _getCanvasSize.width,
+        height = _getCanvasSize.height;
+
+    // return canvas element
+
+
+    return (0, _domStylize.stylize)(canvasElem, {
+        position: 'relative',
+        width: width + 'px',
+        height: height + 'px',
+        marginTop: pointSize + 'px',
+        marginLeft: pointSize + 'px'
+    });
+}
+
+// Get curve path DOM element
+// Curve path element is dashed (or solid) path on which menu points will be placed
+function getPathElement(_ref2) {
+    var radius = _ref2.radius,
+        angle = _ref2.angle;
+
+    var pathContainerElem = document.createElement('div');
+    var pathElem = document.createElement('div');
+
+    // stylize path element
+    (0, _domStylize.stylize)(pathElem, {
+        width: radius * 2 + 'px',
+        height: radius * 2 + 'px',
+        borderRadius: '100%',
+        border: '1px dashed #999',
+        boxSizing: 'border-box',
+        position: 'absolute',
+        right: '0px',
+        top: '50%',
+        transform: 'translateY(-50%)'
+    });;
+
+    // stylize path container element
+    (0, _domStylize.stylize)(pathContainerElem, {
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        boxSizing: 'border-box',
+        position: 'absolute',
+        right: '0',
+        top: '0'
+    });
+
+    // append path DOM element to path container
+    pathContainerElem.appendChild(pathElem);
+
+    return pathContainerElem;
+}
+
+// get canvas element
+// stylize canavs and add path element
+function getCanvas(_ref3) {
+    var rootElem = _ref3.rootElem,
+        radius = _ref3.radius,
+        angle = _ref3.angle,
+        pointSize = _ref3.pointSize;
+
+    // empty root element
+    rootElem.innerHTML = '';
+
+    // stylize canvas
+    stylizeCanvas({ canvasElem: rootElem, radius: radius, angle: angle, pointSize: pointSize });
+
+    // get path element
+    var pathElement = getPathElement({ radius: radius, angle: angle });
+
+    // append path element to root element
+    rootElem.appendChild(pathElement);
+
+    return rootElem;
+}
+
+exports.getCanvas = getCanvas;
+exports.stylizeCanvas = stylizeCanvas;
+exports.getPathElement = getPathElement;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getPointElements = undefined;
+
+var _angle = __webpack_require__(1);
+
+var _geometry = __webpack_require__(0);
+
+var _domStylize = __webpack_require__(2);
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } // API related to menu points (navigation elements)
+
+// set point element position relative to canvas
+function _setPointElemPosition(_ref) {
+    var radius = _ref.radius,
+        angle = _ref.angle,
+        elements = _ref.elements,
+        totalElements = _ref.totalElements,
+        atBottom = _ref.atBottom;
+
+    var _getCanvasSize = (0, _geometry.getCanvasSize)(radius, angle),
+        width = _getCanvasSize.width,
+        height = _getCanvasSize.height;
+
+    // current angle of first point element to render at from x-axis
+
+
+    var currentAngle = angle / 2;
+
+    // angle between two adjacent point
+    var separationAngle = angle / 2 / elements.length;
+
+    for (var index in elements) {
+        var top = height / 2 - (0, _angle.getSin)(currentAngle) * radius;
+        var left = (0, _angle.getCos)(currentAngle) * radius - (radius - width);
+
+        // if bottom points, position vertically relative to bottom of the canvas
+        if (atBottom) {
+            top = height - top;
+        }
+
+        // stylize pointElement
+        (0, _domStylize.stylize)(elements[index], {
+            top: Math.round(top) + 'px',
+            left: Math.round(left) + 'px'
+        });
+
+        // if even total point elements, add extra angle of separation
+        // to compensate lack of middle point
+        if (totalElements % 2 == 0) {
+            currentAngle -= separationAngle + separationAngle / (totalElements - 1);
+        } else {
+            currentAngle -= separationAngle;
+        }
+    }
+
+    return elements;
+}
+
+// Get list of DOM point elements
+function getPointElements(_ref2) {
+    var radius = _ref2.radius,
+        angle = _ref2.angle,
+        pointsCount = _ref2.pointsCount,
+        pointSize = _ref2.pointSize;
+
+    var _getCanvasSize2 = (0, _geometry.getCanvasSize)(radius, angle),
+        width = _getCanvasSize2.width,
+        height = _getCanvasSize2.height;
+
+    // make list of DOM point elements
+
+
+    var pointElements = Array(pointsCount).fill(null).map(function () {
+        var pointElem = document.createElement('div');
+
+        // style point element
+        (0, _domStylize.stylize)(pointElem, {
+            position: 'absolute',
+            width: pointSize + 'px',
+            height: pointSize + 'px',
+            top: height / 2 + 'px',
+            left: width + 'px',
+            borderRadius: '100%',
+            background: '#dc6262',
+            boxSizing: 'border-box',
+            zIndex: '1',
+            transform: 'translate(-50%, -50%)',
+            boxShadow: '0 0 0 3px #fff, 0 0 0 6px #eee'
+        });
+
+        return pointElem;
+    });
+
+    // split point elements into three vertical zones
+    var topElements = [];
+    var middleElements = [];
+    var bottomElements = [];
+
+    if (pointsCount > 1 && pointsCount % 2 == 0) {
+        topElements = pointElements.slice(0, pointsCount / 2);
+        bottomElements = pointElements.slice(pointsCount / 2).reverse();
+    } else if (pointsCount > 1 && pointsCount % 2 != 0) {
+        topElements = pointElements.slice(0, pointsCount / 2);
+        middleElements = pointElements.slice(pointsCount / 2, pointsCount / 2 + 1);
+        bottomElements = pointElements.slice(pointsCount / 2 + 1);
+    } else {
+        topElements = pointElements;
+    }
+
+    // set margin to point elements to render on circumference
+    if (pointsCount > 1) {
+        //radius, angle, elements, totalElements, atBottom
+        _setPointElemPosition({
+            radius: radius,
+            angle: angle,
+            elements: topElements,
+            totalElements: pointsCount,
+            atBottom: false
+        });
+
+        _setPointElemPosition({
+            radius: radius,
+            angle: angle,
+            elements: bottomElements.reverse(),
+            totalElements: pointsCount,
+            atBottom: true
+        });
+    }
+
+    // return point DOM elements
+    return [].concat(_toConsumableArray(topElements), _toConsumableArray(middleElements), _toConsumableArray(bottomElements.reverse()));
+}
+
+exports.getPointElements = getPointElements;
 
 /***/ })
 /******/ ]);
