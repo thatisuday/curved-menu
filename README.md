@@ -1,5 +1,9 @@
-# curved-menu
+# Curved Menu
 VanillaJS curved menu (circular navigation)
+
+<div>
+    <img src="https://i.imgur.com/NSo9o63.png" height="300px"/>
+</div>
 
 # preview
 [click here](https://rawgit.com/thatisuday/curved-menu/master/dist/index.html)
