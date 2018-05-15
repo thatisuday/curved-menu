@@ -5,17 +5,19 @@ VanillaJS curved menu (circular navigation)
     <img src="https://i.imgur.com/NSo9o63.png" height="300px"/>
 </div>
 
-# preview
+# Preview
 [click here](https://rawgit.com/thatisuday/curved-menu/master/dist/index.html)
 
-# install
+# Install
 ```js
 npm install --save curved-menu
 
 import CurveMenu from 'curved-menu';
 ```
 
-# use
+> or use `index.js` file from `dist` folder
+
+# Use
 ```html
 <div id="nav"></div>
 ```
@@ -61,6 +63,8 @@ window.addEventListener('DOMContentLoaded', function() {
 ```
 
 # CSS classes
+you can override style using these classes
+
 - .curved-menu
 - .curved-menu__curve-container
 - .curved-menu__curve-container__curve
