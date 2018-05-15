@@ -1,14 +1,14 @@
-const navElement = document.getElementById('nav');
-
-let radius = 300; // radius of circle in px
-let angle = 90; // span angle of points on circle
-let pointsCount = 4; // number of points
-let pointSize = 15; // size of points in px
-
 import { getCanvas } from './lib/canvas';
 import { getPointElements } from './lib/points';
+import css from './lib/styles';
 
-export class CurvedMenu {
+// add styles to document
+let style = document.createElement('style');
+style.appendChild(document.createTextNode(css));
+document.getElementsByTagName('head')[0].appendChild(style);
+
+// CurvedMenu plugin constructor class
+export default class CurvedMenu {
     constructor(rootElem, config) {
         this.rootElem = rootElem;
         this.config = config;
@@ -21,16 +21,8 @@ export class CurvedMenu {
         this.canvasElement = this.canvasElement.append(...pointElements);
 
         // notify init event
-        this.notify('INIT');
-    }
-
-    // notitfy
-    notify(type) {
-        console.log('NOTIF: ', type);
+        if( this.config.onInit && ( typeof this.config.onInit == 'function' ) ) {
+            this.config.onInit();
+        }
     }
 }
-
-// instance
-const instance = new CurvedMenu(navElement, {
-    radius, angle, pointSize, pointsCount
-});

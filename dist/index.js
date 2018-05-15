@@ -1,9 +1,19 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["CurvedMenu"] = factory();
+	else
+		root["CurvedMenu"] = factory();
+})(typeof self !== 'undefined' ? self : this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	function hotDisposeChunk(chunkId) {
 /******/ 		delete installedChunks[chunkId];
 /******/ 	}
-/******/ 	var parentHotUpdateCallback = window["webpackHotUpdate"];
-/******/ 	window["webpackHotUpdate"] = 
+/******/ 	var parentHotUpdateCallback = window["webpackHotUpdateCurvedMenu"];
+/******/ 	window["webpackHotUpdateCurvedMenu"] = 
 /******/ 	function webpackHotUpdateCallback(chunkId, moreModules) { // eslint-disable-line no-unused-vars
 /******/ 		hotAddUpdateChunk(chunkId, moreModules);
 /******/ 		if(parentHotUpdateCallback) parentHotUpdateCallback(chunkId, moreModules);
@@ -61,7 +71,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "af9bfe4db262e8e406cd"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f891d8583bcd5709e26c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -831,7 +841,6 @@ exports.stylize = stylize;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.CurvedMenu = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -841,18 +850,24 @@ var _canvas = __webpack_require__(4);
 
 var _points = __webpack_require__(5);
 
+var _styles = __webpack_require__(6);
+
+var _styles2 = _interopRequireDefault(_styles);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var navElement = document.getElementById('nav');
+// add styles to document
+var style = document.createElement('style');
+style.appendChild(document.createTextNode(_styles2.default));
+document.getElementsByTagName('head')[0].appendChild(style);
 
-var radius = 300; // radius of circle in px
-var angle = 90; // span angle of points on circle
-var pointsCount = 4; // number of points
-var pointSize = 15; // size of points in px
+// CurvedMenu plugin constructor class
 
-var CurvedMenu = exports.CurvedMenu = function () {
+var CurvedMenu = function () {
     function CurvedMenu(rootElem, config) {
         _classCallCheck(this, CurvedMenu);
 
@@ -873,27 +888,16 @@ var CurvedMenu = exports.CurvedMenu = function () {
             this.canvasElement = (_canvasElement = this.canvasElement).append.apply(_canvasElement, _toConsumableArray(pointElements));
 
             // notify init event
-            this.notify('INIT');
-        }
-
-        // notitfy
-
-    }, {
-        key: 'notify',
-        value: function notify(type) {
-            console.log('NOTIF: ', type);
+            if (this.config.onInit && typeof this.config.onInit == 'function') {
+                this.config.onInit();
+            }
         }
     }]);
 
     return CurvedMenu;
 }();
 
-// instance
-
-
-var instance = new CurvedMenu(navElement, {
-    radius: radius, angle: angle, pointSize: pointSize, pointsCount: pointsCount
-});
+exports.default = CurvedMenu;
 
 /***/ }),
 /* 4 */
@@ -926,11 +930,13 @@ function stylizeCanvas(_ref) {
         width = _getCanvasSize.width,
         height = _getCanvasSize.height;
 
+    // add reference class
+
+
+    canvasElem.classList.add('curved-menu');
+
     // return canvas element
-
-
     return (0, _domStylize.stylize)(canvasElem, {
-        position: 'relative',
         width: width + 'px',
         height: height + 'px',
         marginTop: pointSize + 'px',
@@ -947,28 +953,14 @@ function getPathElement(_ref2) {
     var pathContainerElem = document.createElement('div');
     var pathElem = document.createElement('div');
 
+    // add reference classes
+    pathContainerElem.classList.add('curved-menu__curve-container');
+    pathElem.classList.add('curved-menu__curve-container__curve');
+
     // stylize path element
     (0, _domStylize.stylize)(pathElem, {
         width: radius * 2 + 'px',
-        height: radius * 2 + 'px',
-        borderRadius: '100%',
-        border: '1px dashed #999',
-        boxSizing: 'border-box',
-        position: 'absolute',
-        right: '0px',
-        top: '50%',
-        transform: 'translateY(-50%)'
-    });;
-
-    // stylize path container element
-    (0, _domStylize.stylize)(pathContainerElem, {
-        width: '100%',
-        height: '100%',
-        overflow: 'hidden',
-        boxSizing: 'border-box',
-        position: 'absolute',
-        right: '0',
-        top: '0'
+        height: radius * 2 + 'px'
     });
 
     // append path DOM element to path container
@@ -1075,32 +1067,60 @@ function _setPointElemPosition(_ref) {
 function getPointElements(_ref2) {
     var radius = _ref2.radius,
         angle = _ref2.angle,
-        pointsCount = _ref2.pointsCount,
-        pointSize = _ref2.pointSize;
+        _ref2$points = _ref2.points,
+        points = _ref2$points === undefined ? [{ id: 'POINT_ID_1', label: 'provide some points' }] : _ref2$points,
+        pointSize = _ref2.pointSize,
+        onClick = _ref2.onClick;
 
     var _getCanvasSize2 = (0, _geometry.getCanvasSize)(radius, angle),
         width = _getCanvasSize2.width,
         height = _getCanvasSize2.height;
 
+    var pointsCount = points.length;
+
     // make list of DOM point elements
+    var pointElements = points.map(function (_ref3) {
+        var id = _ref3.id,
+            label = _ref3.label;
 
-
-    var pointElements = Array(pointsCount).fill(null).map(function () {
         var pointElem = document.createElement('div');
+        var pointElemBullet = document.createElement('div');
+        var pointElemLabel = document.createElement('div');
+
+        // add text inside point element label
+        pointElemLabel.innerText = label;
+
+        // insert point bullet and label inside point element
+        pointElem.appendChild(pointElemBullet);
+        pointElem.appendChild(pointElemLabel);
 
         // style point element
         (0, _domStylize.stylize)(pointElem, {
-            position: 'absolute',
-            width: pointSize + 'px',
-            height: pointSize + 'px',
             top: height / 2 + 'px',
             left: width + 'px',
-            borderRadius: '100%',
-            background: '#dc6262',
-            boxSizing: 'border-box',
-            zIndex: '1',
-            transform: 'translate(-50%, -50%)',
-            boxShadow: '0 0 0 3px #fff, 0 0 0 6px #eee'
+            marginLeft: -pointSize / 2 + 'px',
+            marginTop: -pointSize / 2 + 'px'
+        });
+
+        // style point bullet element
+        (0, _domStylize.stylize)(pointElemBullet, {
+            width: pointSize + 'px',
+            height: pointSize + 'px'
+        });
+
+        // style point label element
+        (0, _domStylize.stylize)(pointElemLabel, {
+            left: pointSize + 'px'
+        });
+
+        // add reference classes
+        pointElem.classList.add('curved-menu__point');
+        pointElemBullet.classList.add('curved-menu__point__bullet');
+        pointElemLabel.classList.add('curved-menu__point__label');
+
+        // attach event handler
+        pointElem.addEventListener('click', function () {
+            onClick(id);
         });
 
         return pointElem;
@@ -1148,5 +1168,20 @@ function getPointElements(_ref2) {
 
 exports.getPointElements = getPointElements;
 
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var styles = "\n    .curved-menu{\n        position: relative;\n        display: inline-block;\n    }\n\n    .curved-menu__curve-container{\n        width : 100%;\n        height : 100%;\n        overflow : hidden;\n        box-sizing : border-box;\n        position : absolute;\n        left : 0;\n        top : 0;\n    }\n\n    .curved-menu__curve-container__curve{\n        border-radius: 100%;\n        border: 1px dashed #999;\n        box-sizing: border-box;\n        position: absolute;\n        right: 0px;\n        top: 50%;\n        transform: translateY(-50%);\n    }\n\n    .curved-menu__point{\n        position: absolute;\n        z-index: 1;\n        cursor: pointer;\n    }\n\n    .curved-menu__point__bullet{\n        border-radius: 100%;\n        background: #dc6262;\n        box-sizing: border-box;\n        z-index: 1;\n        box-shadow: 0 0 0 3px #fff, 0 0 0 6px #eee;\n    }\n\n    .curved-menu__point__label{\n        position: absolute;\n        top: 50%;\n        margin-left: 10px;\n        padding: 5px 15px;\n        transform: translateY(-50%);\n        color: #333;\n        background: #eee;\n        box-sizing: border-box;\n        border-radius: 30px;\n        font-size: 12px;\n        text-transform: uppercase;\n        font-family: sans-serif;\n        letter-spacing: 0.5px;\n        white-space: nowrap;\n        opacity: 0;\n        transition: opacity 300ms ease;\n        box-shadow: 1px 1px 0 2px #fff, 2px 2px 5px rgba(0, 0, 0, 0.1);\n    }\n    .curved-menu__point:hover .curved-menu__point__label{\n        opacity: 1;\n    }\n";
+
+exports.default = styles;
+
 /***/ })
-/******/ ]);
+/******/ ])["default"];
+});

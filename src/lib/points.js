@@ -43,26 +43,51 @@ function _setPointElemPosition({ radius, angle, elements, totalElements, atBotto
 }
 
 // Get list of DOM point elements
-function getPointElements({ radius, angle, pointsCount, pointSize }) {
+function getPointElements({ radius, angle, points = [{id: 'POINT_ID_1', label: 'provide some points'}], pointSize, onClick }) {
     let { width, height } = getCanvasSize(radius, angle);
 
+    let pointsCount = points.length;
+
     // make list of DOM point elements
-    let pointElements = Array(pointsCount).fill(null).map(() => {
+    let pointElements = points.map(({ id, label }) => {
         let pointElem = document.createElement('div');
+        let pointElemBullet = document.createElement('div');
+        let pointElemLabel = document.createElement('div');
+
+        // add text inside point element label
+        pointElemLabel.innerText = label;
+
+        // insert point bullet and label inside point element
+        pointElem.appendChild(pointElemBullet);
+        pointElem.appendChild(pointElemLabel);
 
         // style point element
         stylize(pointElem, {
-            position: 'absolute',
-            width: pointSize + 'px',
-            height: pointSize + 'px',
             top: (height / 2) + 'px',
             left: width + 'px',
-            borderRadius: '100%',
-            background: '#dc6262',
-            boxSizing: 'border-box',
-            zIndex: '1',
-            transform: 'translate(-50%, -50%)',
-            boxShadow: '0 0 0 3px #fff, 0 0 0 6px #eee',
+            marginLeft: -pointSize / 2 + 'px',
+            marginTop: -pointSize / 2 + 'px',
+        });
+
+        // style point bullet element
+        stylize(pointElemBullet, {
+            width: pointSize + 'px',
+            height: pointSize + 'px'
+        });
+
+        // style point label element
+        stylize(pointElemLabel, {
+            left: pointSize + 'px',
+        });
+
+        // add reference classes
+        pointElem.classList.add('curved-menu__point');
+        pointElemBullet.classList.add('curved-menu__point__bullet');
+        pointElemLabel.classList.add('curved-menu__point__label');
+
+        // attach event handler
+        pointElem.addEventListener('click', function() {
+            onClick( id );
         });
 
         return pointElem;

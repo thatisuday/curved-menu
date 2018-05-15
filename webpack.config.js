@@ -5,6 +5,9 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: './src/index.js',
     output: {
+        library: 'CurvedMenu',
+        libraryTarget: 'umd',
+        libraryExport: 'default',
         path: path.resolve(__dirname, 'dist'),
         filename: 'index.js'
     },

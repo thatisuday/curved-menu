@@ -9,9 +9,11 @@ function stylizeCanvas({canvasElem, radius, angle, pointSize}) {
     // get recommended size of canvas element
     let { width, height } = getCanvasSize(radius, angle);
 
+    // add reference class
+    canvasElem.classList.add('curved-menu');
+
     // return canvas element
     return stylize(canvasElem, {
-        position: 'relative',
         width: width + 'px',
         height: height + 'px',
         marginTop: pointSize + 'px',
@@ -25,28 +27,14 @@ function getPathElement({radius, angle}) {
     let pathContainerElem = document.createElement('div');
     let pathElem = document.createElement('div');
 
+    // add reference classes
+    pathContainerElem.classList.add('curved-menu__curve-container');
+    pathElem.classList.add('curved-menu__curve-container__curve');
+
     // stylize path element
     stylize(pathElem, {
         width: (radius* 2) + 'px',
         height: (radius * 2) + 'px',
-        borderRadius: '100%',
-        border: '1px dashed #999',
-        boxSizing: 'border-box',
-        position: 'absolute',
-        right: '0px',
-        top: '50%',
-        transform: 'translateY(-50%)',
-    });;
-
-    // stylize path container element
-    stylize(pathContainerElem, {
-        width : '100%',
-        height : '100%',
-        overflow : 'hidden',
-        boxSizing : 'border-box',
-        position : 'absolute',
-        right : '0',
-        top : '0',
     });
 
     // append path DOM element to path container
