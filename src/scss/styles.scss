@@ -1,0 +1,151 @@
+$inactive-gradient: linear-gradient(to left, #f78ca0 0%, #fd868c 100%);
+$inactive-color: #fd868c;
+
+$active-gradient: linear-gradient(to left, #00d499 0%, #00BCD4 100%);
+$active-color: #15d69c;
+
+.curved-menu{
+    position: relative;
+    z-index: 100;
+    display: inline-block;
+
+    &__curve-container{
+        width : 100%;
+        height : 100%;
+        overflow : hidden;
+        box-sizing : border-box;
+        position : absolute;
+        left : 0;
+        top : 0;
+
+        &__curve{
+            border-radius: 50%;
+            box-sizing: border-box;
+            position: absolute;
+            right: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 2px #eee;
+        }
+    }
+
+    &__point{
+        position: absolute;
+        z-index: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        &__bullet{
+            position: relative;
+            flex: 0 0 auto;
+            box-sizing: border-box;
+            z-index: 2;
+            transform: scale(1);
+            transition: all 300ms ease;
+
+            &:before{
+                content: "";
+                display: block;
+                position: absolute;
+                z-index: 0;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                background-image: $inactive-gradient;
+                background-size: 200% 200%;
+                background-position: 0% 0%;
+                border-radius: 50%;
+            }
+
+            &:after{
+                content: "";
+                display: block;
+                position: absolute;
+                z-index: 0;
+                left: 5px;
+                top: 5px;
+                right: 5px;
+                bottom: 5px;
+                border-radius: 50% !important;
+                background-color: #fff;
+                transition: all 300ms ease;
+            }
+        }
+        
+        &__label{
+            position: relative;
+            flex: 0 0 auto;
+            padding: 2px 15px 3px;
+            color: #fff;
+            background-color: $inactive-color;
+            box-shadow: 1px 1px 0 2px #fff, 2px 2px 5px $inactive-color;
+            box-sizing: border-box;
+            border-radius: 30px;
+            font-size: 12px;
+            text-transform: uppercase;
+            font-family: sans-serif;
+            white-space: nowrap;
+            z-index: 1;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 300ms ease, transform 300ms ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 100;
+
+            &:before{
+                content: "";
+                display: block;
+                position: absolute;
+                width: 0px;
+                height: 0px;
+                left: -3px;
+                top: 50%;
+                transform: translateY(-50%);
+                border-top: 5px solid transparent;
+                border-bottom: 5px solid transparent;
+                border-right: 5px solid $inactive-color;
+            }
+        }
+
+        &:hover &{
+            &__bullet{
+                transform: scale(1.1);
+
+                &:before{
+                    background-position: 100% 100%;
+                }
+
+                &:after{
+                    transform: scale(0.6);
+                    background-color: #eee;
+                }
+            }
+
+            &__label{
+                transform: translateX(15px);
+                opacity: 1;
+            }
+        }
+
+        &--active &{
+            &__bullet{
+                &:before{
+                    background: $active-gradient;
+                }
+            }
+
+            &__label{
+                background-color: $active-color;
+                box-shadow: 1px 1px 0 2px #fff, 2px 2px 5px $active-color;
+                
+                &:before{
+                    border-right: 5px solid $active-color;
+                }
+            }
+        }
+    }
+}
+

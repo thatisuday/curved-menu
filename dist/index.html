@@ -10,26 +10,76 @@
                 padding: 0;
                 margin: 0;
                 display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-size: 13px;
+            }
+
+            .display{
+                display: flex;
                 justify-content: center;
                 align-items: center;
             }
 
+            #nav{
+                text-align: center;
+            }
+
             h1,h2,h3,h4,h5,h6{
                 margin: 0;
-                text-align: center;
+            }
+
+            a{
+                text-decoration: none;
+                color: #222 !important;
+            }
+
+            p{
+                margin-top: 0;
+                margin-bottom: 5px;
+            }
+
+            .title{
+                margin-bottom: 50px;
+            }
+
+            button{
+                margin-top: 10px;
+            }
+
+            #notifier{
+                margin-left: 100px;
+                width: 400px;
+                min-height: 200px;
+                border: 3px solid #eee;
+                border-radius: 5px;
+                padding: 15px;
             }
         </style>
     </head>
     <body>
-        <div id="nav">
-            <h3>Curve menu will initialize here.</h3>
-            <h4>Check your console for info.</h4>
+
+        <h1 class="title">
+            <a href="https://github.com/thatisuday/curved-menu">Curved Menu JS Plugin</a>
+        </h1>
+
+        <div class="display">
+            <div id="nav">
+                <h3>Curveed menu will initialize here.</h3>
+                <h4>Check your console for info.</h4>
+    
+                <button id="button">initialize curved menu</button>
+            </div>
+    
+            <div id="notifier"></div>
         </div>
 
         <script>
             var radius = 300; // radius of circle in px
             var angle = 90; // span angle of points on circle
-            var pointSize = 15; // size of points in px
+            var pointSize = 25; // size of points in px
 
             // point elements (bullet/buttons)
             var points = [
@@ -40,29 +90,47 @@
                 { id: 5, label: 'Point label 5' },
             ];
 
+            function insertNotification(message) {
+                var notifier = document.getElementById('notifier');
+
+                var notif = document.createElement('p');
+                notif.textContent = message;
+
+                notifier.appendChild(notif);
+            }
+
             // once DOM is ready
             window.addEventListener('DOMContentLoaded', function() {
                 // DOM element for curve menu
                 var navElem = document.getElementById('nav');
 
                 // create curve menu instance
-                const instance = new CurvedMenu(navElem, {
+                var instance = new CurvedMenu(navElem, {
                     radius: radius,
                     angle: angle,
                     pointSize: pointSize,
                     points, points,
                     onInit: function(  ) {
-                        console.log( 'curve menu initialized' );
+                        insertNotification( 'Curved menu initialized!' );
+                        console.log( 'Curved menu initialized!' );
                     },
                     onClick: function( id ) {
-                        console.log( 'clicked id', id );
+                        insertNotification( 'Clicked point id: ' + id );
+                        console.log( 'Selected point id: ', id );
                     }
                 });
 
                 // initialize curve menu instance at your will
-                setTimeout(function() {
-                    instance.init();
-                }, 3000);
+                document.getElementById('button').addEventListener('click', function(){
+                    if(instance) {
+                        instance.init();
+
+                        // set active point using `id`
+                        setTimeout(function() {
+                            instance.setActivePoint('2');
+                        }, 2000);
+                    }
+                });
             });
         </script>
     <script type="text/javascript" src="index.js"></script></body>

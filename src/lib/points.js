@@ -43,7 +43,7 @@ function _setPointElemPosition({ radius, angle, elements, totalElements, atBotto
 }
 
 // Get list of DOM point elements
-function getPointElements({ radius, angle, points = [{id: 'POINT_ID_1', label: 'provide some points'}], pointSize, onClick }) {
+function getPointElements({ radius, angle, points = [{id: 'POINT_ID_1', label: 'provide some points'}], pointSize }, actionHandlers) {
     let { width, height } = getCanvasSize(radius, angle);
 
     let pointsCount = points.length;
@@ -53,6 +53,9 @@ function getPointElements({ radius, angle, points = [{id: 'POINT_ID_1', label: '
         let pointElem = document.createElement('div');
         let pointElemBullet = document.createElement('div');
         let pointElemLabel = document.createElement('div');
+
+        // add point attribute to point label
+        pointElem.setAttribute('point-id', id);
 
         // add text inside point element label
         pointElemLabel.innerText = label;
@@ -75,19 +78,14 @@ function getPointElements({ radius, angle, points = [{id: 'POINT_ID_1', label: '
             height: pointSize + 'px'
         });
 
-        // style point label element
-        stylize(pointElemLabel, {
-            left: pointSize + 'px',
-        });
-
         // add reference classes
         pointElem.classList.add('curved-menu__point');
         pointElemBullet.classList.add('curved-menu__point__bullet');
         pointElemLabel.classList.add('curved-menu__point__label');
 
-        // attach event handler
-        pointElem.addEventListener('click', function() {
-            onClick( id );
+        // attach click event handler
+        pointElem.addEventListener('click', function( event ) {
+            actionHandlers.click( event.currentTarget );
         });
 
         return pointElem;

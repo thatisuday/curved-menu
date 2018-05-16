@@ -17,13 +17,18 @@ import CurveMenu from 'curved-menu';
 
 # use
 ```html
-<div id="nav"></div>
+<div id="nav">
+    <h3>Curveed menu will initialize here.</h3>
+    <h4>Check your console for info.</h4>
+
+    <button id="button">initialize curved menu</button>
+</div>
 ```
 
 ```js
 var radius = 300; // radius of circle in px
 var angle = 90; // span angle of points on circle
-var pointSize = 15; // size of points in px
+var pointSize = 25; // size of points in px
 
 // point elements (bullet/buttons)
 var points = [
@@ -34,29 +39,46 @@ var points = [
     { id: 5, label: 'Point label 5' },
 ];
 
+function insertNotification(message) {
+    var notifier = document.getElementById('notifier');
+
+    var notif = document.createElement('p');
+    notif.textContent = message;
+
+    notifier.appendChild(notif);
+}
+
 // once DOM is ready
 window.addEventListener('DOMContentLoaded', function() {
     // DOM element for curve menu
     var navElem = document.getElementById('nav');
 
     // create curve menu instance
-    const instance = new CurvedMenu(navElem, {
+    var instance = new CurvedMenu(navElem, {
         radius: radius,
         angle: angle,
         pointSize: pointSize,
         points, points,
         onInit: function(  ) {
-            console.log( 'curve menu initialized' );
+            insertNotification( 'Curved menu initialized!' );
+            console.log( 'Curved menu initialized!' );
         },
         onClick: function( id ) {
-            console.log( 'clicked id', id );
+            insertNotification( 'Clicked point id: ' + id );
+            console.log( 'Selected point id: ', id );
         }
     });
 
     // initialize curve menu instance at your will
-    setTimeout(function() {
-        instance.init();
-    }, 3000);
+    document.getElementById('button').addEventListener('click', function(){
+        if(instance) {
+            instance.init();
+
+            setTimeout(function() {
+                instance.setActivePoint('2');
+            }, 2000);
+        }
+    });
 });
 ```
 
