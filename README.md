@@ -15,21 +15,21 @@ npm install --save curved-menu
 import CurveMenu from 'curved-menu';
 ```
 
-> or use `index.js` file from `dist` folder
+> or use `index.js` file from `dist` folder. `CurveMenu` will be available on `window`.
 
 # Use
 ```html
 <div id="nav">
-    <h3>Curveed menu will initialize here.</h3>
+    <h3>Curved menu will initialize here.</h3>
     <h4>Check your console for info.</h4>
 
-    <button id="button">initialize curved menu</button>
+    <button id="button">Initialize Curved Menu</button>
 </div>
 ```
 
 ```js
 var radius = 300; // radius of circle in px
-var angle = 90; // span angle of points on circle
+var angle = 90; // span angle of points on circle (angle between first and last point)
 var pointSize = 25; // size of points in px
 
 // point elements (bullet/buttons)
@@ -41,6 +41,7 @@ var points = [
     { id: 5, label: 'Point label 5' },
 ];
 
+// log notification 
 function insertNotification(message) {
     var notifier = document.getElementById('notifier');
 
@@ -60,7 +61,7 @@ window.addEventListener('DOMContentLoaded', function() {
         radius: radius,
         angle: angle,
         pointSize: pointSize,
-        points, points,
+        points: points,
         onInit: function(  ) {
             insertNotification( 'Curved menu initialized!' );
             console.log( 'Curved menu initialized!' );
