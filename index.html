@@ -109,7 +109,7 @@
                     radius: radius,
                     angle: angle,
                     pointSize: pointSize,
-                    points, points,
+                    points: points,
                     onInit: function(  ) {
                         insertNotification( 'Curved menu initialized!' );
                         console.log( 'Curved menu initialized!' );
@@ -123,12 +123,24 @@
                 // initialize curve menu instance at your will
                 document.getElementById('button').addEventListener('click', function(){
                     if(instance) {
+                        // initialize
                         instance.init();
 
                         // set active point using `id`
                         setTimeout(function() {
-                            instance.setActivePoint('2');
+                            instance.setActivePoint('POINT_ID_2');
                         }, 2000);
+
+                        // destroy instance
+                        setTimeout(function() {
+                            // destory
+                            instance.destroy();
+
+                            setTimeout(function(){
+                                // re-initialize
+                                instance.init();
+                            }, 3000);
+                        }, 6000);
                     }
                 });
             });

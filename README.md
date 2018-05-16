@@ -1,12 +1,12 @@
 # Curved Menu
-VanillaJS curved menu (circular navigation)
+VanillaJS Curved Menu (circular navigation) with radius and angle control.
 
 <div>
     <img src="https://i.imgur.com/NSo9o63.png" height="300px"/>
 </div>
 
 # Preview
-[click here](https://rawgit.com/thatisuday/curved-menu/master/dist/index.html)
+[click here](https://i.imgur.com/yUQMBpT.png)
 
 # Install
 ```js
@@ -74,11 +74,24 @@ window.addEventListener('DOMContentLoaded', function() {
     // initialize curve menu instance at your will
     document.getElementById('button').addEventListener('click', function(){
         if(instance) {
+            // initialize
             instance.init();
 
+            // set active point using `id`
             setTimeout(function() {
-                instance.setActivePoint('2');
+                instance.setActivePoint('POINT_ID_2');
             }, 2000);
+
+            // destroy instance
+            setTimeout(function() {
+                // destory
+                instance.destroy();
+
+                setTimeout(function(){
+                    // re-initialize
+                    instance.init();
+                }, 3000);
+            }, 6000);
         }
     });
 });

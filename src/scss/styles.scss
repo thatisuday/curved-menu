@@ -22,11 +22,11 @@ $active-color: #15d69c;
             border-radius: 50%;
             box-sizing: border-box;
             position: absolute;
-            right: 2px;
+            right: 0;
             top: 50%;
             transform: translateY(-50%);
             transition: all 0.3s ease;
-            box-shadow: 0 0 0 2px #eee;
+            border: 2px dotted #ddd;
         }
     }
 

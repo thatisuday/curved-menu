@@ -98,7 +98,7 @@ function getPointElements({ radius, angle, points = [{id: 'POINT_ID_1', label: '
 
     if (pointsCount > 1 && (pointsCount % 2) == 0) {
         topElements = pointElements.slice(0, pointsCount / 2);
-        bottomElements = pointElements.slice(pointsCount / 2).reverse();
+        bottomElements = pointElements.slice(pointsCount / 2);
     } else if (pointsCount > 1 && pointsCount % 2 != 0) {
         topElements = pointElements.slice(0, pointsCount / 2);
         middleElements = pointElements.slice((pointsCount / 2), ((pointsCount / 2) + 1));
