@@ -1,6 +1,6 @@
 {
   "name": "curved-menu",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "VanillaJS curved navigation menu (circular navigation)",
   "main": "dist/index.js",
   "scripts": {
