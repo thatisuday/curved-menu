@@ -1,9 +1,7 @@
 # Curved Menu
 VanillaJS Curved Menu (circular navigation) with radius and angle control.
 
-<div>
-    <img src="https://i.imgur.com/yUQMBpT.png" height="600px"/>
-</div>
+[![](https://i.imgur.com/yUQMBpT.png)](https://rawgit.com/thatisuday/curved-menu/master/dist/index.html)
 
 # Preview
 [click here](https://rawgit.com/thatisuday/curved-menu/master/dist/index.html)
