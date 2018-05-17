@@ -43,7 +43,7 @@ var points = [
     { id: 'POINT_ID_5', label: 'Point label 5' },
 ];
 
-// log notification 
+// log notification (demo purpose only)
 function insertNotification(message) {
     var notifier = document.getElementById('notifier');
 
