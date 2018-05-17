@@ -49,8 +49,12 @@
                 margin-top: 10px;
             }
 
-            #notifier{
+            #control{
                 margin-left: 100px;
+                text-align: center;
+            }
+
+            #notifier{
                 width: 400px;
                 min-height: 200px;
                 border: 3px solid #eee;
@@ -73,7 +77,12 @@
                 <button id="button">initialize curved menu</button>
             </div>
     
-            <div id="notifier"></div>
+            <div id="control">
+                <div id="notifier"></div>
+
+                <button id="incrementRadius">Increment radius</button>
+                <button id="addPoint">Add point</button>
+            </div>
         </div>
 
         <script>
@@ -99,13 +108,11 @@
                 notifier.appendChild(notif);
             }
 
-            // once DOM is ready
-            window.addEventListener('DOMContentLoaded', function() {
-                // DOM element for curve menu
+            function initPlugin() {
                 var navElem = document.getElementById('nav');
 
                 // create curve menu instance
-                var instance = new CurvedMenu(navElem, {
+                return new CurvedMenu(navElem, {
                     radius: radius,
                     angle: angle,
                     pointSize: pointSize,
@@ -119,29 +126,30 @@
                         console.log( 'Selected point id: ', id );
                     }
                 });
+            }
 
+            // once DOM is ready
+            window.addEventListener('DOMContentLoaded', function() {
+                
                 // initialize curve menu instance at your will
                 document.getElementById('button').addEventListener('click', function(){
-                    if(instance) {
-                        // initialize
-                        instance.init();
+                    initPlugin().init();
+                });
 
-                        // set active point using `id`
-                        setTimeout(function() {
-                            instance.setActivePoint('POINT_ID_2');
-                        }, 2000);
+                // increment radius
+                document.getElementById('incrementRadius').addEventListener('click', function(){
+                    radius += 10;
+                    initPlugin().init();
+                });
 
-                        // destroy instance
-                        setTimeout(function() {
-                            // destory
-                            instance.destroy();
+                // add point
+                document.getElementById('addPoint').addEventListener('click', function(){
+                    points.push({
+                        id: points.length + 1, 
+                        label: 'Point label ' + (points.length + 1)
+                    });
 
-                            setTimeout(function(){
-                                // re-initialize
-                                instance.init();
-                            }, 3000);
-                        }, 6000);
-                    }
+                    initPlugin().init();
                 });
             });
         </script>

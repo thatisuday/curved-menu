@@ -1,8 +1,8 @@
-$inactive-gradient: linear-gradient(to left, #f78ca0 0%, #fd868c 100%);
+$inactive-gradient: linear-gradient(to right, #e95b75 0%, #fd868c 100%);
 $inactive-color: #fd868c;
 
-$active-gradient: linear-gradient(to left, #00d499 0%, #00BCD4 100%);
-$active-color: #15d69c;
+$active-gradient: linear-gradient(to right,  #00BCD4 0%, #00d499 100%);
+$active-color: #00d499;
 
 .curved-menu{
     position: relative;
@@ -10,11 +10,12 @@ $active-color: #15d69c;
     display: inline-block;
 
     &__curve-container{
+        position : absolute;
+        z-index: 1;
         width : 100%;
         height : 100%;
         overflow : hidden;
         box-sizing : border-box;
-        position : absolute;
         left : 0;
         top : 0;
 
@@ -22,20 +23,37 @@ $active-color: #15d69c;
             border-radius: 50%;
             box-sizing: border-box;
             position: absolute;
+            z-index: 2;
             right: 0;
             top: 50%;
             transform: translateY(-50%);
             transition: all 0.3s ease;
-            border: 2px dotted #ddd;
+            overflow: hidden;
+            background-image: linear-gradient(to top, #dad4ec 0%, #dad4ec 1%, #f3e7e9 100%);
+
+            &:after{
+                content: "";
+                display: block;
+                position: absolute;
+                z-index: 1;
+                background-color: #fff;
+                left: 2px;
+                top: 2px;
+                right: 2px;
+                bottom: 2px;
+                border-radius: 50%;
+            }
         }
     }
 
     &__point{
         position: absolute;
-        z-index: 1;
+        z-index: 2;
         cursor: pointer;
         display: flex;
         align-items: center;
+        padding: 5px;
+        filter: url('#curved-menu-goo-effect');
 
         &__bullet{
             position: relative;
@@ -55,8 +73,6 @@ $active-color: #15d69c;
                 right: 0;
                 bottom: 0;
                 background-image: $inactive-gradient;
-                background-size: 200% 200%;
-                background-position: 0% 0%;
                 border-radius: 50%;
             }
 
@@ -81,7 +97,7 @@ $active-color: #15d69c;
             padding: 2px 15px 3px;
             color: #fff;
             background-color: $inactive-color;
-            box-shadow: 1px 1px 0 2px #fff, 2px 2px 5px $inactive-color;
+            //box-shadow: 1px 1px 0 2px #fff, 2px 2px 5px $inactive-color;
             box-sizing: border-box;
             border-radius: 30px;
             font-size: 12px;
@@ -114,10 +130,6 @@ $active-color: #15d69c;
             &__bullet{
                 transform: scale(1.1);
 
-                &:before{
-                    background-position: 100% 100%;
-                }
-
                 &:after{
                     transform: scale(0.6);
                     background-color: #eee;
@@ -125,7 +137,7 @@ $active-color: #15d69c;
             }
 
             &__label{
-                transform: translateX(15px);
+                transform: translateX(5px);
                 opacity: 1;
             }
         }
@@ -133,13 +145,13 @@ $active-color: #15d69c;
         &--active &{
             &__bullet{
                 &:before{
-                    background: $active-gradient;
+                    background-image: $active-gradient;
                 }
             }
 
             &__label{
                 background-color: $active-color;
-                box-shadow: 1px 1px 0 2px #fff, 2px 2px 5px $active-color;
+                //box-shadow: 1px 1px 0 2px #fff, 2px 2px 5px $active-color;
                 
                 &:before{
                     border-right: 5px solid $active-color;

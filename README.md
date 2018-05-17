@@ -1,7 +1,11 @@
 # Curved Menu
 VanillaJS Curved Menu (circular navigation) with radius and angle control.
 
-[![](https://i.imgur.com/yUQMBpT.png)](https://rawgit.com/thatisuday/curved-menu/master/dist/index.html)
+[![npm](https://img.shields.io/npm/dt/curved-menu.svg?style=flat-square)](https://www.npmjs.com/package/curved-menu)
+[![npm](https://img.shields.io/npm/v/curved-menu.svg?style=flat-square)](https://www.npmjs.com/package/curved-menu)
+[![David](https://img.shields.io/david/thatisuday/curved-menu.svg?style=flat-square)](https://www.npmjs.com/package/curved-menu)
+
+[![](https://i.imgur.com/QbA2Xvn.png)](https://rawgit.com/thatisuday/curved-menu/master/dist/index.html)
 
 # Preview
 [click here](https://rawgit.com/thatisuday/curved-menu/master/dist/index.html)

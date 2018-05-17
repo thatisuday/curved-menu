@@ -6,14 +6,17 @@ import './scss/styles.scss';
 // CurvedMenu plugin constructor class
 export default class CurvedMenu {
     constructor(rootElem, config) {
+        this.initialized = false;
         this.rootElem = rootElem;
         this.config = Object.assign(defaultConfig, config);
     }
 
     // initialize curved menu
     init() {
-        // destroy previous instance
-        this.destroy();
+        // destroy previous instance, if exists
+        if( this.initialized ) {
+            this.destroy();
+        }
 
         // create canvas element from root element
         this.canvasElement = getCanvas({rootElem: this.rootElem, ...this.config});
@@ -32,6 +35,9 @@ export default class CurvedMenu {
         if( this.config.onInit && ( typeof this.config.onInit == 'function' ) ) {
             this.config.onInit();
         }
+
+        // set initialized value to true
+        this.initialized = true;
     }
 
     // set active point ( class )
@@ -64,6 +70,9 @@ export default class CurvedMenu {
         // reset root element container
         this.rootElem.style = '';
         this.rootElem.innerHTML = '';
+
+        // unset initialized value to true
+        this.initialized = false;
     }
 
 }

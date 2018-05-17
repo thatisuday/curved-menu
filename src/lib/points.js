@@ -68,8 +68,8 @@ function getPointElements({ radius, angle, points = [{id: 'POINT_ID_1', label: '
         stylize(pointElem, {
             top: (height / 2) + 'px',
             left: width + 'px',
-            marginLeft: -pointSize / 2 + 'px',
-            marginTop: -pointSize / 2 + 'px',
+            marginLeft: ( -pointSize / 2 ) - 5 + 'px',      // 5px extra because of css padding
+            marginTop: ( -pointSize / 2 ) - 5 + 'px',       // 5px extra because of css padding
         });
 
         // style point bullet element
