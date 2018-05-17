@@ -36,11 +36,11 @@ var pointSize = 25; // size of points in px
 
 // point elements (bullet/buttons)
 var points = [
-    { id: 1, label: 'Point label 1' },
-    { id: 2, label: 'Point label 2' },
-    { id: 3, label: 'Point label 3' },
-    { id: 4, label: 'Point label 4' },
-    { id: 5, label: 'Point label 5' },
+    { id: 'POINT_ID_1', label: 'Point label 1' },
+    { id: 'POINT_ID_2', label: 'Point label 2' },
+    { id: 'POINT_ID_3', label: 'Point label 3' },
+    { id: 'POINT_ID_4', label: 'Point label 4' },
+    { id: 'POINT_ID_5', label: 'Point label 5' },
 ];
 
 // log notification 
