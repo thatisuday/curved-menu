@@ -109,3 +109,6 @@ you can override style using these classes
 - .curved-menu__point
 - .curved-menu__point__bullet
 - .curved-menu__point__label
+
+# Need more development
+This plugin was developed just to test circular geometry and SVG filters. It needs more functionality to dynamically add/remove points and add extra configurations. So, any help is appreciated.

@@ -1,12 +1,12 @@
 {
   "name": "curved-menu",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "VanillaJS curved navigation menu (circular navigation)",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack-dev-server --content-base src --inline"
+    "start": "webpack-dev-server"
   },
   "repository": {
     "type": "git",

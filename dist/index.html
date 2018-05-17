@@ -81,7 +81,10 @@
                 <div id="notifier"></div>
 
                 <button id="incrementRadius">Increment radius</button>
-                <button id="addPoint">Add point</button>
+                <button id="decrementRadius">Decrement radius</button>
+                <button id="incrementAngle">Increment angle</button>
+                <button id="decrementAngle">Decrement angle</button>
+                <button id="addPoint">Add new point</button>
             </div>
         </div>
 
@@ -123,7 +126,7 @@
                     },
                     onClick: function( id ) {
                         insertNotification( 'Clicked point id: ' + id );
-                        console.log( 'Selected point id: ', id );
+                        console.log( 'Activated point id: ', id );
                     }
                 });
             }
@@ -133,12 +136,31 @@
                 
                 // initialize curve menu instance at your will
                 document.getElementById('button').addEventListener('click', function(){
+                    var instance  = initPlugin();
+                    instance.init();
+
+                    setTimeout(function(){
+                        instance.setActivePoint('2');
+                    }, 2000);
+                });
+
+                // increment/decrement radius
+                document.getElementById('incrementRadius').addEventListener('click', function(){
+                    radius += 10;
+                    initPlugin().init();
+                });
+                document.getElementById('decrementRadius').addEventListener('click', function(){
+                    radius -= 10;
                     initPlugin().init();
                 });
 
-                // increment radius
-                document.getElementById('incrementRadius').addEventListener('click', function(){
-                    radius += 10;
+                // increment/decrement angle
+                document.getElementById('incrementAngle').addEventListener('click', function(){
+                    angle += 5;
+                    initPlugin().init();
+                });
+                document.getElementById('decrementAngle').addEventListener('click', function(){
+                    angle -= 5;
                     initPlugin().init();
                 });
 
